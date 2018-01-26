@@ -63,67 +63,81 @@
             <div id="head" class="row">
                 <div id="notice" class="col-md-4 col-sm-4 col-xs-4">
                     <div class="fade" style="margin-left: 50px;">
-                        <div style="height: 100px;">
+                        <div style="height: 80px;">
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-3">
                                     <img src="/img/png/pink.png"
                                          style="height: 100%;padding-top: 20px;padding-bottom: 20px;" />
                                 </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <h1 class="fade" style="color: pink;padding-top: 10px;">Notice</h1>
+                                <div class="col-md-9 col-sm-9 col-xs-9" style="padding-left: 50px;">
+                                    <h2 class="fade" style="color: pink;padding-top:5px;">Notice</h2>
                                 </div>
                             </div>
                         </div>
-                        <div style="height: 350px;background-color: pink;padding: 15px 30px 10px 30px;">
-                            <c:forEach var="novel" items="${novelsList}">
-                                <h4 style="color: white;">${novel.name} ： ${novel.latestChapter}</h4>
+                        <div style="height: 350px;background-color: pink;padding: 10px 30px 10px 30px;">
+                            <c:forEach var="notice" items="${notices}">
+                                <h5>
+                                    <a href="${notice.url}" style="color: white;">${notice.title}</a>
+                                </h5>
                                 <hr style="margin-top: 10px;margin-bottom: 10px;" color="gray" />
                             </c:forEach>
-                            <a href="#" style=""><h4 style="text-align: right;color: white;">More...</h4></a>
+                            <a href="http://www.cdut.edu.cn/xww/type/1000020104.html">
+                                <h5 style="text-align: right;color: white;">More...</h5>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div id="music" class="col-md-4 col-sm-4 col-xs-4">
                     <div class="fade" style="margin-left: 25px;margin-right: 25px;">
-                        <div style="height: 100px;">
+                        <div style="height: 80px;">
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-3">
                                     <img src="/img/png/brown.png"
                                          style="height: 100%;padding-top: 20px;padding-bottom: 20px;" />
                                 </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <h1 class="fade" style="color: #786F3B;padding-top: 10px;">Music</h1>
+                                <div class="col-md-9 col-sm-9 col-xs-9" style="padding-left: 50px;">
+                                    <h2 class="fade" style="color: #786F3B;padding-top: 5px;">Music</h2>
                                 </div>
                             </div>
                         </div>
-                        <div style="height: 350px;background-color: #786F3B;padding: 15px 30px 10px 30px;">
-                            <c:forEach var="novel" items="${novelsList}">
-                                <h4 style="color: white;">${novel.name}:${novel.latestChapter}</h4>
+                        <div style="height: 350px;background-color: #786F3B;padding: 10px 30px 10px 30px;">
+                            <c:forEach var="music" items="${musics}">
+                                <h5>
+                                    <a href="${music.url}" style="color: white;">${music.name}-${music.author}</a>
+                                </h5>
                                 <hr style="margin-top: 10px;margin-bottom: 10px;" color="gray" />
                             </c:forEach>
-                            <a href="#" style=""><h4 style="text-align: right;color: white;">More...</h4></a>
+                            <a href="http://music.163.com/playlist?id=2016069820">
+                                <h5 style="text-align: right;color: white;">More...</h5>
+                            </a>
                         </div>
                     </div>
                 </div>
                 <div id="novel" class="col-md-4 col-sm-4 col-xs-4">
                     <div class="fade" style="margin-right: 50px;">
-                        <div style="height: 100px;">
+                        <div style="height: 80px;">
                             <div class="row">
                                 <div class="col-md-3 col-sm-3 col-xs-3">
                                     <img src="/img/png/skyblue.png"
                                          style="height: 100%;padding-top: 20px;padding-bottom: 20px;" />
                                 </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <h1 class="fade" style="color: deepskyblue;padding-top: 10px;">Novel</h1>
+                                <div class="col-md-9 col-sm-9 col-xs-9" style="padding-left: 50px;">
+                                    <h2 class="fade" style="color: deepskyblue;padding-top: 5px;">Novel</h2>
                                 </div>
                             </div>
                         </div>
-                        <div style="height: 350px;background-color: deepskyblue;padding: 15px 30px 10px 30px;">
+                        <div style="height: 350px;background-color: deepskyblue;padding: 10px 30px 10px 30px;">
                             <c:forEach var="novel" items="${novelsList}">
-                                <h4 style="color: white;">${novel.name}:${novel.latestChapter}</h4>
+                                <h5>
+                                    <a href="${novel.url}" style="color: white;">
+                                            ${novel.name}  :  ${novel.latestChapter}
+                                    </a>
+                                </h5>
                                 <hr style="margin-top: 10px;margin-bottom: 10px;" color="gray" />
                             </c:forEach>
-                            <a href="#" style=""><h4 style="text-align: right;color: white;">More...</h4></a>
+                            <a href="http://www.biquge.com.tw/">
+                                <h5 style="text-align: right;color: white;">More...</h5>
+                            </a>
                         </div>
                     </div>
                 </div>
