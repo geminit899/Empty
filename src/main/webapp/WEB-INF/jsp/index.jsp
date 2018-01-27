@@ -103,11 +103,11 @@
                         <div style="height: 350px;background-color: #786F3B;padding: 10px 30px 10px 30px;">
                             <c:forEach var="music" items="${musics}">
                                 <h5>
-                                    <a href="${music.url}" style="color: white;">${music.name}-${music.author}</a>
+                                    <a href="${music.url}" style="color: white;">${music.name} - ${music.author}</a>
                                 </h5>
                                 <hr style="margin-top: 10px;margin-bottom: 10px;" color="gray" />
                             </c:forEach>
-                            <a href="http://music.163.com/playlist?id=2016069820">
+                            <a href="http://music.163.com/user/songs/rank?id=258625371">
                                 <h5 style="text-align: right;color: white;">More...</h5>
                             </a>
                         </div>
