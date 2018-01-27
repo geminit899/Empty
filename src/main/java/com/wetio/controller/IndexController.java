@@ -1,6 +1,5 @@
 package com.wetio.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
@@ -26,8 +25,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -107,16 +104,22 @@ public class IndexController {
         }
 
         //获取github
+        String contributions = null;
         try {
             String github = simulateLogin("geminit@163.com", "IamI123..!!");
+            Document githubDocument = Jsoup.parse(github);
+            Elements elements =  githubDocument.select("[class=mb-5 border border-gray-dark rounded-1 py-2");
+            Element element = elements.get(0);
+            contributions = element.toString();
         } catch (Exception e) {
-            System.out.println("Fetching github failed!");
+            contributions = "<center><h1>Can not link to github.com</h1></center>";
         }
 
         model.addAttribute("novelsList", novelsList);
         model.addAttribute("imagesList", imagesList);
         model.addAttribute("notices", notices);
         model.addAttribute("musics", musics);
+        model.addAttribute("contributions", contributions);
 
         return "index";
     }
@@ -187,7 +190,6 @@ public class IndexController {
         Music music;
 
         URL url = new URL("http://music.163.com/weapi/v1/play/record?csrf_token=");
-        ;
         String parma = "params=3DPzrzItjAbzYlm9ir446U0zrvtB3oXN8R8W%2FM0XV9cAl88fk9XGUtPeqBESRfNlAwW6Kg2AZw1Cu9STZreSAp2OYafeTcuE1LS1akwCTYQLDyHflBsniY60bXNEW5a4Zqiq%2B7jqfd%2FlxOQoGwQpV07VOTAe18%2BVIYpw%2BnNnUM%2FshuFd9Rn%2FwCSGcLug8qWm&encSecKey=aeb7714d007240d8811b44b1835dfd5eeac48446e2bfe6cd2c9c6f9d5e1cd2e644b4b9f822edffadac54d3c9e6d20c220493e99c09c6ea7328c72411af360ac1390c27486f225b434a972900c7983562cc8e8d1745abad7b6d53ba51c0cfee7d8e7c97cb88000dff8f1af908a6de4eb7ad6bcc35fa1e5f3708fce00323dcc6bc";
         String referer = "http://music.163.com/user/songs/rank?id=258625371";
 
@@ -287,21 +289,12 @@ public class IndexController {
         }
 
         /*
-         * 第二次请求，以post方式提交表单数据以及cookie信息
+         * 第二次请求，以get方式提交表单数据以及cookie信息
          */
-        Connection con2 = Jsoup.connect("https://github.com/session");
+        Connection con2 = Jsoup.connect("https://github.com/geminit899");
         con2.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0");
         // 设置cookie和post上面的map数据
-        Connection.Response login = con2.ignoreContentType(true).followRedirects(true).method(Connection.Method.POST)
-                .data(datas).cookies(rs.cookies()).execute();
-
-        /*
-         * 第三次请求，以get方式提交表单数据以及cookie信息
-         */
-        Connection con3 = Jsoup.connect("https://github.com/geminit899");
-        con2.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0");
-        // 设置cookie和post上面的map数据
-        Connection.Response index = con3.ignoreContentType(true).followRedirects(true).method(Connection.Method.GET)
+        Connection.Response index = con2.ignoreContentType(true).followRedirects(true).method(Connection.Method.GET)
                 .data(datas).cookies(rs.cookies()).execute();
 
         // parse the document from response

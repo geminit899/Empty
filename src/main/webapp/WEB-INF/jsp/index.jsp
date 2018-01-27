@@ -144,9 +144,7 @@
             </div>
             <div style="height: 30px;"></div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
-            <div id="github" style="height: 300px;">
-
-            </div>
+            <div id="github" style="height: 300px;">${contributions}</div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
             <div id="travel" style="height: 300px;">
 
