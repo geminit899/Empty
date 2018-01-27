@@ -15,6 +15,7 @@ import com.wetio.entity.Novel;
 import com.wetio.service.ImageService;
 import com.wetio.service.NovelService;
 import org.apache.commons.logging.LogFactory;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -61,7 +62,7 @@ public class IndexController {
 
     //映射一个action
     @RequestMapping("/index")
-    public String index(Model model, HttpServletRequest request){
+    public String index(Model model, HttpServletRequest request) {
         //输出日志文件
         logger.info("the index page");
 
@@ -73,33 +74,43 @@ public class IndexController {
         List<Map> novelsList = new ArrayList<>();
         Map map;
 
-        for(int i = 0; i<novels.size() && i<8; i++){
+        //获取novels
+        for (int i = 0; i < novels.size() && i < 8; i++) {
             map = new HashMap();
-            map.put("name",novels.get(i).getName());
-            map.put("latestChapter",novels.get(i).getLatestChapter().split("章")[1]);
-            map.put("url",novels.get(i).getUrl());
+            map.put("name", novels.get(i).getName());
+            map.put("latestChapter", novels.get(i).getLatestChapter().split("章")[1]);
+            map.put("url", novels.get(i).getUrl());
             novelsList.add(map);
         }
 
-        for(int i = 0; i<images.size(); i++){
+        //获取主页的image
+        for (int i = 0; i < images.size(); i++) {
             map = new HashMap();
-            map.put("url",images.get(i).getUrl());
+            map.put("url", images.get(i).getUrl());
             imagesList.add(map);
         }
 
         //获取notice
         List<Notice> notices = new ArrayList<>();
-        try{
-            notices = getNotices();
-        }catch (IOException ie){
-            System.out.println("IOException");
-        }
+//        try{
+//            notices = getNotices();
+//        }catch (IOException ie){
+//            System.out.println("IOException");
+//        }
 
+        //获取musics
         List<Music> musics = new ArrayList<>();
         try {
             musics = getMusics();
-        }catch (IOException ie){
+        } catch (IOException ie) {
             System.out.println("IOException");
+        }
+
+        //获取github
+        try {
+            String github = simulateLogin("geminit@163.com", "IamI123..!!");
+        } catch (Exception e) {
+            System.out.println("Fetching github failed!");
         }
 
         model.addAttribute("novelsList", novelsList);
@@ -127,7 +138,7 @@ public class IndexController {
         webClient.getOptions().setJavaScriptEnabled(true); //很重要，启用JS
 
         //不显示异常警告
-        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log",    "org.apache.commons.logging.impl.NoOpLog");
+        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
         java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
         java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
 
@@ -142,7 +153,7 @@ public class IndexController {
         Element showhtml = document.getElementById("showhtml");//获得showhtml中首页前32个元素
         Elements lis = showhtml.getElementsByTag("li");//获取ul中所有li标签
 
-        for (int i=0; i<8; i++){
+        for (int i = 0; i < 8; i++) {
             Element li = lis.get(i);//获取当前的li标签
             Element span = li.select("[class=time]").get(0);//获取当前含有时间的标签span
             String time = span.text();//将标签span内的发布时间取出
@@ -153,8 +164,8 @@ public class IndexController {
             //获取标题
             String title = li.select("a").get(0).attr("xwbt");
 
-            if( title.length()>25 ) {
-                title = title.substring(0,23) + "...";
+            if (title.length() > 25) {
+                title = title.substring(0, 23) + "...";
             }
 
             notice = new Notice();
@@ -167,15 +178,16 @@ public class IndexController {
         page.cleanUp();
         webContent.cleanUp();
 
-        return  notices;
+        return notices;
     }
 
-    public List<Music> getMusics() throws IOException{
+    public List<Music> getMusics() throws IOException {
 
         List<Music> musics = new ArrayList<>();
         Music music;
 
-        URL url = new URL("http://music.163.com/weapi/v1/play/record?csrf_token=");;
+        URL url = new URL("http://music.163.com/weapi/v1/play/record?csrf_token=");
+        ;
         String parma = "params=3DPzrzItjAbzYlm9ir446U0zrvtB3oXN8R8W%2FM0XV9cAl88fk9XGUtPeqBESRfNlAwW6Kg2AZw1Cu9STZreSAp2OYafeTcuE1LS1akwCTYQLDyHflBsniY60bXNEW5a4Zqiq%2B7jqfd%2FlxOQoGwQpV07VOTAe18%2BVIYpw%2BnNnUM%2FshuFd9Rn%2FwCSGcLug8qWm&encSecKey=aeb7714d007240d8811b44b1835dfd5eeac48446e2bfe6cd2c9c6f9d5e1cd2e644b4b9f822edffadac54d3c9e6d20c220493e99c09c6ea7328c72411af360ac1390c27486f225b434a972900c7983562cc8e8d1745abad7b6d53ba51c0cfee7d8e7c97cb88000dff8f1af908a6de4eb7ad6bcc35fa1e5f3708fce00323dcc6bc";
         String referer = "http://music.163.com/user/songs/rank?id=258625371";
 
@@ -218,28 +230,83 @@ public class IndexController {
 
         JSONArray weekData = JSONArray.parseArray(allData.getString("weekData"));
 
-        for (int i=0; i<weekData.size() && i<8; i++){
+        for (int i = 0; i < weekData.size() && i < 8; i++) {
             music = new Music();
-            JSONObject song = JSONObject.parseObject(((JSONObject)weekData.get(i)).getString("song"));
+            JSONObject song = JSONObject.parseObject(((JSONObject) weekData.get(i)).getString("song"));
             String ar = song.getString("ar");
             JSONArray singerArray = JSONArray.parseArray(ar);
 
-            if(singerArray.size()>1){
+            if (singerArray.size() > 1) {
                 String singerString = "";
-                for (int j=0; j<singerArray.size(); j++){
-                    if( j!=0 )
+                for (int j = 0; j < singerArray.size(); j++) {
+                    if (j != 0)
                         singerString += "、";
-                    singerString += ((JSONObject)singerArray.get(j)).getString("name");
+                    singerString += ((JSONObject) singerArray.get(j)).getString("name");
                 }
-            }else
-                music.setAuthor(((JSONObject)singerArray.get(0)).getString("name"));
+            } else
+                music.setAuthor(((JSONObject) singerArray.get(0)).getString("name"));
 
             music.setName(song.getString("name"));
-            music.setUrl( "http://music.163.com/#/song?id=" + song.getString("id") );
+            music.setUrl("http://music.163.com/#/song?id=" + song.getString("id"));
             musics.add(music);
         }
 
         return musics;
     }
 
+    public String simulateLogin(String userName, String pwd) throws Exception {
+         /*
+         * 第一次请求
+         * grab login form page first
+         * 获取登陆提交的表单信息，及修改其提交data数据（login，password）
+         */
+        // get the response, which we will post to the action URL(rs.cookies())
+        Connection con = Jsoup.connect("https://github.com/login");  // 获取connection
+        // 配置模拟浏览器
+        con.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0");
+        Connection.Response rs = con.execute();                // 获取响应
+        Document d1 = Jsoup.parse(rs.body());       // 转换为Dom树
+        List<Element> eleList = d1.select("form");  // 获取提交form表单，可以通过查看页面源码代码得知
+
+        // 获取cooking和表单属性
+        // lets make data map containing all the parameters and its values found in the form
+        Map<String, String> datas = new HashMap<>();
+        for (Element e : eleList.get(0).getAllElements()) {
+            // 设置用户名
+            if (e.attr("name").equals("login")) {
+                e.attr("value", userName);
+            }
+            // 设置用户密码
+            if (e.attr("name").equals("password")) {
+                e.attr("value", pwd);
+            }
+            // 排除空值表单属性
+            if (e.attr("name").length() > 0) {
+                datas.put(e.attr("name"), e.attr("value"));
+            }
+        }
+
+        /*
+         * 第二次请求，以post方式提交表单数据以及cookie信息
+         */
+        Connection con2 = Jsoup.connect("https://github.com/session");
+        con2.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0");
+        // 设置cookie和post上面的map数据
+        Connection.Response login = con2.ignoreContentType(true).followRedirects(true).method(Connection.Method.POST)
+                .data(datas).cookies(rs.cookies()).execute();
+
+        /*
+         * 第三次请求，以get方式提交表单数据以及cookie信息
+         */
+        Connection con3 = Jsoup.connect("https://github.com/geminit899");
+        con2.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0");
+        // 设置cookie和post上面的map数据
+        Connection.Response index = con3.ignoreContentType(true).followRedirects(true).method(Connection.Method.GET)
+                .data(datas).cookies(rs.cookies()).execute();
+
+        // parse the document from response
+        String body = index.body();
+
+        return body;
+    }
 }
