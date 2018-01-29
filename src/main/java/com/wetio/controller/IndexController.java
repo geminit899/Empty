@@ -104,13 +104,22 @@ public class IndexController {
         }
 
         //获取github
-        String contributions = null;
+        String contributions = "";
+        String githubImageURL = "";
         try {
             String github = simulateLogin("geminit@163.com", "IamI123..!!");
             Document githubDocument = Jsoup.parse(github);
-            Elements elements =  githubDocument.select("[class=mb-5 border border-gray-dark rounded-1 py-2");
-            Element element = elements.get(0);
-            contributions = element.toString();
+            Element mainContent = githubDocument.getElementById("js-pjax-container")
+                                                .select("[class=container-lg clearfix px-3 mt-4]").get(0);
+            Element image = mainContent.select("[itemprop=image]").get(0);
+            githubImageURL = image.getElementsByTag("img").get(0).attr("src");
+            Element contributionsDiv = mainContent.select("[class=col-9 float-left pl-2]").get(0)
+                                                  .select("[class=position-relative]").get(0)
+                                                  .select("[class=mt-4]").get(0)
+                                                  .select("[class=js-contribution-graph]").get(0)
+                                                  .select("[class=mb-5 border border-gray-dark rounded-1 py-2]").get(0);
+            Element svg = contributionsDiv.getElementsByTag("div").get(0).getElementsByTag("svg").get(0);
+            contributions = contributionsDiv.getElementsByTag("div").get(1).toString();
         } catch (Exception e) {
             contributions = "<center><h1>Can not link to github.com</h1></center>";
         }
@@ -119,6 +128,7 @@ public class IndexController {
         model.addAttribute("imagesList", imagesList);
         model.addAttribute("notices", notices);
         model.addAttribute("musics", musics);
+        model.addAttribute("githubImageURL", githubImageURL);
         model.addAttribute("contributions", contributions);
 
         return "index";
@@ -245,6 +255,7 @@ public class IndexController {
                         singerString += "、";
                     singerString += ((JSONObject) singerArray.get(j)).getString("name");
                 }
+                music.setAuthor(singerString);
             } else
                 music.setAuthor(((JSONObject) singerArray.get(0)).getString("name"));
 

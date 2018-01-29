@@ -43,7 +43,7 @@
                     <%-- Swiper Content --%>
                     <c:forEach var="image" items="${imagesList}">
                         <div class="swiper-slide" style="position: relative;">
-                            <a href="http://www.baidu.com" style="position:absolute;width: 100%;z-index: 1;">
+                            <a href="#" style="position:absolute;width: 100%;z-index: 1;">
                                 <img src="${image.url}" style="height: 100%;width: 100%;"/>
                             </a>
                             <div style="position: absolute;z-index: 2;"></div>
@@ -144,16 +144,31 @@
             </div>
             <div style="height: 30px;"></div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
-            <div id="github" style="height: 300px;">${contributions}</div>
+            <div id="github" style="height: 300px;margin-left: 50px;margin-right: 50px" class="row">
+                <div class="col-md-3 col-sm-3 col-xs-3" align="right">
+                    <img src="${githubImageURL}" height="230" width="230" style="margin-top: 30px">
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-9" align="center">
+                    <h3 style="margin-top: 40px;margin-bottom: 40px">Contributions</h3>
+                    ${contributions}
+                </div>
+            </div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
-            <div id="travel" style="height: 300px;">
-
+            <div id="travel" style="margin-left: 100px;margin-right: 100px" class="row">
+                <div class="col-md-8 col-sm-8 col-xs-8">
+                    <div id="map" style="width: 800px; height: 600px;"></div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-4"></div>
             </div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
             <div style="height: 30px;"></div>
         </div>
 
         <jsp:include page="util/footer.jsp"></jsp:include>
+
+        <script src="/js/echarts.min.js"></script>
+        <script src="/js/china.js"></script>
+        <script src="/js/indexEcharts.js"></script>
 
         <script src="/js/autoPlaySwiper.js"></script>
     </body>
