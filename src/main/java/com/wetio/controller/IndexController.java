@@ -2,18 +2,12 @@ package com.wetio.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.ScriptResult;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.wetio.entity.Image;
 import com.wetio.entity.Music;
 import com.wetio.entity.Notice;
 import com.wetio.entity.Novel;
 import com.wetio.service.ImageService;
 import com.wetio.service.NovelService;
-import org.apache.commons.logging.LogFactory;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -37,8 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.regex.Pattern;
 
 /**
  * @author Geminit
@@ -105,6 +98,20 @@ public class IndexController {
         model.addAttribute("contributions", github[1]);
 
         return "index";
+    }
+
+    //映射一个action
+    @RequestMapping("/index/login")
+    @ResponseBody
+    public String login(HttpServletRequest request, HttpServletResponse response) {
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if( !username.equals("geminit") || !password.equals("hack") )
+            return "error";
+
+        return username + password;
     }
 
 

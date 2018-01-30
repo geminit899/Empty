@@ -20,22 +20,19 @@
                         <ul class="footer__list">
                             <li class="footer__list-item">
                                 <a data-track data-track-location='footer' href="/features/"
-                                   class="footer__list-link">Features</a>
+                                   class="footer__list-link">Learn</a>
                             </li>
                             <li class="footer__list-item">
-                                <a data-track data-track-location='footer' href="/integrations/" class="footer__list-link">Integrations</a>
+                                <a data-track data-track-location='footer' href="/integrations/"
+                                   class="footer__list-link">Entertainment</a>
                             </li>
                             <li class="footer__list-item">
-                                <a data-track data-track-location='footer' href="/slack/" class="footer__list-link">Slack
-                                    Bot</a>
+                                <a data-track data-track-location='footer' href="/slack/"
+                                   class="footer__list-link">Social</a>
                             </li>
                             <li class="footer__list-item">
                                 <a data-track data-track-location='footer' href="/pricing/"
-                                   class="footer__list-link">Pricing</a>
-                            </li>
-                            <li class="footer__list-item">
-                                <a data-track data-track-location='footer' href="https://demo.redash.io/"
-                                   class="footer__list-link">Demo</a>
+                                   class="footer__list-link">Other</a>
                             </li>
                         </ul><!-- footer__list -->
                     </div><!-- col -->
@@ -90,7 +87,7 @@
                 </div><!-- row -->
                 <div style="text-align: center;margin-top: 30px">
                     <p>Copyright © Project Wetio – Last updated 2018/1/21.&nbsp;&nbsp;
-                        The Wetio Trademark is registeredwith Geminit.</p>
+                        The Wetio Trademark is registered with Geminit.</p>
                 </div>
             </div><!-- container -->
         </footer>
