@@ -154,15 +154,15 @@
                 </div>
             </div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
-            <div id="travel" style="margin-left: 100px;margin-right: 100px" class="row">
-                <div class="col-md-8 col-sm-8 col-xs-8">
-                    <div id="map" style="width: 800px; height: 600px;"></div>
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-4"></div>
-            </div>
+            <div id="travel" style="margin-left: 100px;margin-right: 100px"></div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
             <div style="height: 30px;"></div>
         </div>
+
+        <script type="text/javascript">
+            var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            $("#travel").html("<div id='map' style='width: " + (width-200) + "px; height: 800px;'></div>");
+        </script>
 
         <jsp:include page="util/footer.jsp"></jsp:include>
 
