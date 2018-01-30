@@ -59,7 +59,7 @@ public class IndexController {
 
     //映射一个action
     @RequestMapping("/index")
-    public String index(Model model, HttpServletRequest request) {
+    public String index(Model model, HttpServletRequest request) throws Exception {
         //输出日志文件
         logger.info("the index page");
 
@@ -81,118 +81,117 @@ public class IndexController {
         }
 
         //获取主页的image
-        for (int i = 0; i < images.size(); i++) {
+        for (int i = 0; i < images.size() && i<10; i++) {
             map = new HashMap();
             map.put("url", images.get(i).getUrl());
             imagesList.add(map);
         }
 
         //获取notice
-        List<Notice> notices = new ArrayList<>();
-//        try{
-//            notices = getNotices();
-//        }catch (IOException ie){
-//            System.out.println("IOException");
-//        }
+        List<Notice> notices = getNotices();
 
         //获取musics
-        List<Music> musics = new ArrayList<>();
-        try {
-            musics = getMusics();
-        } catch (IOException ie) {
-            System.out.println("IOException");
-        }
+        List<Music> musics = getMusics();
 
         //获取github
-        String contributions = "";
-        String githubImageURL = "";
-        try {
-            String github = simulateLogin("geminit@163.com", "IamI123..!!");
-            Document githubDocument = Jsoup.parse(github);
-            Element mainContent = githubDocument.getElementById("js-pjax-container")
-                                                .select("[class=container-lg clearfix px-3 mt-4]").get(0);
-            Element image = mainContent.select("[itemprop=image]").get(0);
-            githubImageURL = image.getElementsByTag("img").get(0).attr("src");
-            Element contributionsDiv = mainContent.select("[class=col-9 float-left pl-2]").get(0)
-                                                  .select("[class=position-relative]").get(0)
-                                                  .select("[class=mt-4]").get(0)
-                                                  .select("[class=js-contribution-graph]").get(0)
-                                                  .select("[class=mb-5 border border-gray-dark rounded-1 py-2]").get(0);
-            Element svg = contributionsDiv.getElementsByTag("div").get(0).getElementsByTag("svg").get(0);
-            contributions = contributionsDiv.getElementsByTag("div").get(1).toString();
-        } catch (Exception e) {
-            contributions = "<center><h1>Can not link to github.com</h1></center>";
-        }
+        String github[] = simulateLogin("geminit@163.com", "IamI123..!!");
 
         model.addAttribute("novelsList", novelsList);
         model.addAttribute("imagesList", imagesList);
         model.addAttribute("notices", notices);
         model.addAttribute("musics", musics);
-        model.addAttribute("githubImageURL", githubImageURL);
-        model.addAttribute("contributions", contributions);
+        model.addAttribute("githubImageURL", github[0]);
+        model.addAttribute("contributions", github[1]);
 
         return "index";
     }
+
 
     public List<Notice> getNotices() throws IOException {
 
         List<Notice> notices = new ArrayList<>();
         Notice notice;
 
-        String url = "http://www.cdut.edu.cn/xww/type/1000020104.html";
+        String content = null;
 
-        WebClient webClient = new WebClient(BrowserVersion.FIREFOX_45);//设置浏览器的User-Agent
-        webClient.setAjaxController(new NicelyResynchronizingAjaxController());//设置支持AJAX
-        webClient.setJavaScriptTimeout(10000);//设置JS执行的超时时间
-        webClient.waitForBackgroundJavaScript(10000);//设置JS后台等待执行时间
-        webClient.getOptions().setThrowExceptionOnScriptError(false);//当JS执行出错的时候是否抛出异常
-        webClient.getOptions().setTimeout(100000);//设置“浏览器”的请求超时时间
-        webClient.getOptions().setCssEnabled(false);//是否启用CSS
-        webClient.getOptions().setJavaScriptEnabled(true); //很重要，启用JS
+        URL url = new URL("http://www.cdut.edu.cn/xww/dwr/call/plaincall/portalAjax.getNewsXml.dwr");
+        String parma = "callCount=1&page=/xww/type/1000020104.html&httpSessionId=CA688021B747C7705E76BB56F444B9B7" +
+                "&scriptSessionId=A1D314A51034B319F43931B8845BBE2A156&c0-scriptName=portalAjax&c0-methodName=getNewsXml" +
+                "&c0-id=0&c0-param0=string:10000201&c0-param1=string:1000020104&c0-param2=string:news_" +
+                "&c0-param3=number:32&c0-param4=number:1&c0-param5=null:null&c0-param6=null:null&batchId=8";
+        String referer = "http://www.cdut.edu.cn/xww/type/1000020104.html";
 
-        //不显示异常警告
-        LogFactory.getFactory().setAttribute("org.apache.commons.logging.Log", "org.apache.commons.logging.impl.NoOpLog");
-        java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
-        java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
+        try {
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();  // 打开连接
+            // 设置连接输出流为true,默认false (post 请求是以流的方式隐式的传递参数)
+            connection.setDoOutput(true);
+            // 设置连接输入流为true
+            connection.setDoInput(true);
+            // 设置请求方式为post
+            connection.setRequestMethod("POST");
+            // post请求缓存设为false
+            connection.setUseCaches(false);
+            // 设置该HttpURLConnection实例是否自动执行重定向
+            connection.setInstanceFollowRedirects(true);
+            connection.setRequestProperty("Referer", referer);
+            connection.connect();
+            DataOutputStream dataout = new DataOutputStream(connection.getOutputStream());
+            dataout.writeBytes(parma);
+            // 输出完成后刷新并关闭流
+            dataout.flush();
+            dataout.close(); // 重要且易忽略步骤 (关闭流,切记!)
 
-        HtmlPage page = webClient.getPage(url);//获取初始页面,第一个page对象
-        String hrefValue = "javascript:window.onload = new function(){doPage();}";
-        ScriptResult executeJS = page.executeJavaScript(hrefValue);//执行js方法
+            // 连接发起请求,处理服务器响应  (从连接获取到输入流并包装为bufferedReader)
+            BufferedReader bf = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+            String line;
+            StringBuilder sb = new StringBuilder(); // 用来存储响应数据
+            // 循环读取流,若不到结尾处
+            while ((line = bf.readLine()) != null) {
+                //sb.append(bf.readLine());
+                sb.append(line).append(System.getProperty("line.separator"));
+            }
+            bf.close();    // 重要且易忽略步骤 (关闭流,切记!)
+            connection.disconnect(); // 销毁连接
+            content = sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        HtmlPage webContent = (HtmlPage) executeJS.getNewPage();//获得执行后的新page对象
-        webClient.waitForBackgroundJavaScript(10000);
+        Document document = Jsoup.parse(content);
+        Elements guids = document.getElementsByTag("guid");
 
-        Document document = Jsoup.parse(webContent.asXml());//将新的page页面交给Jsoup
-        Element showhtml = document.getElementById("showhtml");//获得showhtml中首页前32个元素
-        Elements lis = showhtml.getElementsByTag("li");//获取ul中所有li标签
+        for(int i=0; i<guids.size() && i<8; i++){
+            notice = new Notice();
+            notice.setUrl(guids.get(i).toString().split("\n")[1]);
 
-        for (int i = 0; i < 8; i++) {
-            Element li = lis.get(i);//获取当前的li标签
-            Element span = li.select("[class=time]").get(0);//获取当前含有时间的标签span
-            String time = span.text();//将标签span内的发布时间取出
+            // 根据链接（字符串格式），生成一个URL对象
+            URL noticeUrl = new URL(notice.getUrl());
 
-            //获取当前通知的网址
-            String href = li.select("a").get(0).attr("href");
+            // 打开URL
+            HttpURLConnection noticeConnection = (HttpURLConnection) noticeUrl.openConnection();
 
-            //获取标题
-            String title = li.select("a").get(0).attr("xwbt");
+            // 得到输入流，即获得了网页的内容
+            BufferedReader noticeReader = new BufferedReader(new InputStreamReader
+                    (noticeConnection.getInputStream(), "GBK"));
 
-            if (title.length() > 25) {
-                title = title.substring(0, 23) + "...";
+            // 读取输入流的数据，并显示
+            String noticePage = "";
+            while (noticeReader.readLine() != null) {
+                noticePage += noticeReader.readLine();
             }
 
-            notice = new Notice();
-            notice.setTitle(title);
-            notice.setTime(time);
-            notice.setUrl(href);
+            Document noticeDoc = Jsoup.parse(noticePage);
+            int clickTime = Integer.parseInt(noticeDoc.getElementById("newsNum").text());
+            String title = noticeDoc.select("[class=title]").get(0).text();
+            notice.setTitle(title.split("来源")[0].length()>25?title.split("来源")[0].substring(0, 23) + "...":title.split("来源")[0]);
+            notice.setContent(title.split("点击数量:" + clickTime)[1]);
+            notice.setTime(noticeDoc.select("[class=pubtime]").get(0).text().split("：")[1]);
             notices.add(notice);
         }
 
-        page.cleanUp();
-        webContent.cleanUp();
-
         return notices;
     }
+
 
     public List<Music> getMusics() throws IOException {
 
@@ -267,7 +266,7 @@ public class IndexController {
         return musics;
     }
 
-    public String simulateLogin(String userName, String pwd) throws Exception {
+    public String[] simulateLogin(String userName, String pwd) throws Exception {
          /*
          * 第一次请求
          * grab login form page first
@@ -308,9 +307,28 @@ public class IndexController {
         Connection.Response index = con2.ignoreContentType(true).followRedirects(true).method(Connection.Method.GET)
                 .data(datas).cookies(rs.cookies()).execute();
 
-        // parse the document from response
-        String body = index.body();
 
-        return body;
+        String githubImageURL = "";
+        String contributions = "";
+
+        try {
+            Document githubDocument = Jsoup.parse(index.body());
+            Element mainContent = githubDocument.getElementById("js-pjax-container")
+                    .select("[class=container-lg clearfix px-3 mt-4]").get(0);
+            Element image = mainContent.select("[itemprop=image]").get(0);
+            githubImageURL = image.getElementsByTag("img").get(0).attr("src");
+            Element contributionsDiv = mainContent.select("[class=col-9 float-left pl-2]").get(0)
+                    .select("[class=position-relative]").get(0)
+                    .select("[class=mt-4]").get(0)
+                    .select("[class=js-contribution-graph]").get(0)
+                    .select("[class=mb-5 border border-gray-dark rounded-1 py-2]").get(0);
+            contributions = contributionsDiv.getElementsByTag("div").get(1).toString();
+        } catch (Exception e) {
+            contributions = "<center><h1>Can not link to github.com</h1></center>";
+        }
+
+        String gitHub[] = {githubImageURL, contributions};
+
+        return gitHub;
     }
 }
