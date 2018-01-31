@@ -86,7 +86,7 @@
                     </div><!-- col -->
                 </div><!-- row -->
                 <div style="text-align: center;margin-top: 30px">
-                    <p>Copyright © Project Wetio – Last updated 2018/1/21.&nbsp;&nbsp;
+                    <p>Copyright © Project Wetio – Last updated 2018/1/31.&nbsp;&nbsp;
                         The Wetio Trademark is registered with Geminit.</p>
                 </div>
             </div><!-- container -->

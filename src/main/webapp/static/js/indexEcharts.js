@@ -46,6 +46,7 @@ var geoCoordMap = {
 
 var CDData = [
     [{name:'成都'}, {name:'上海',value:95}],
+    [{name:'成都'}, {name:'南昌',value:95}],
     [{name:'成都'}, {name:'峨眉山',value:90}],
     [{name:'成都'}, {name:'重庆',value:80}],
     [{name:'成都'}, {name:'西安',value:70}],
