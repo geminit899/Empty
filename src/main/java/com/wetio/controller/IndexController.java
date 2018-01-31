@@ -111,7 +111,7 @@ public class IndexController {
         if( !username.equals("geminit") || !password.equals("hack") )
             return "error";
 
-        return username + password;
+        return username;
     }
 
 

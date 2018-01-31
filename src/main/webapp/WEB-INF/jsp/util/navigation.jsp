@@ -10,6 +10,34 @@
     <head>
         <title>Navigation</title>
         <link rel="stylesheet" href="/css/nav.css">
+        <script type="text/javascript">
+            function login(){
+                var str = {};
+                str["username"] = $("#username").val();
+                str["password"] = $("#password").val();
+
+                $.ajax({                    //获得各个区域的值
+                    type:"post",
+                    async: false, //同步执行
+                    url:"/wetio/index/login",
+                    data:str,
+                    success:function(result){
+                        if(result == "error"){
+                            $("#password").val("");
+                            $('#error').modal('show');
+                        }else {
+                            $('#Login').modal('hide');
+                            setLoginArea(result);
+                        }
+                    }
+                });
+            }
+
+            function setLoginArea(name){
+                $("#LoginArea").html("<li><a>" + name + "</a></li>");
+                $("#LoginArea").html("<li><a>注销</a></li>");
+            }
+        </script>
     </head>
     <body>
         <nav class="nav-1" style="height: 50px;">
@@ -34,7 +62,7 @@
                             <li><a href="/">其他</a></li>
                         </ul>
                         <div class="text-right">
-                            <ul class="social-links" style="margin-top: -5px;">
+                            <ul id="LoginArea" class="social-links" style="margin-top: -5px;">
                                 <li><a data-toggle="modal" data-target="#Login">Login</a></li>
                             </ul>
                         </div>
@@ -91,27 +119,5 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
-        <script type="text/javascript">
-            function login(){
-                var str = {};
-                str["username"] = $("#username").val();
-                str["password"] = $("#password").val();
-
-                $.ajax({                    //获得各个区域的值
-                    type:"post",
-                    async: false, //同步执行
-                    url:"/wetio/index/login",
-                    data:str,
-                    success:function(result){
-                        if(result == "error"){
-                            $("#password").val("");
-                            $('#error').modal('show');
-                        }else
-                            $('#Login').modal('hide');
-                    }
-                });
-            }
-        </script>
     </body>
 </html>

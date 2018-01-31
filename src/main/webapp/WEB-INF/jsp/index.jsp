@@ -149,7 +149,7 @@
                     <img src="${githubImageURL}" height="230" width="230" style="margin-top: 30px">
                 </div>
                 <div class="col-md-9 col-sm-9 col-xs-9" align="center">
-                    <h3 style="margin-top: 40px;margin-bottom: 40px">Contributions</h3>
+                    <h3 style="margin-top: 40px;margin-bottom: 40px; color: gray">Contributions</h3>
                     ${contributions}
                 </div>
             </div>
