@@ -155,7 +155,6 @@
             </div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
             <div id="travel" style="margin-left: 100px;margin-right: 100px"></div>
-            <hr style="width:90%;height:2px;background-color:gray;"/>
             <div style="height: 30px;"></div>
         </div>
 

@@ -165,6 +165,9 @@ var series = [];
                     color: color[i]
                 }
             },
+            tooltip :{
+                show: false,
+            },
             data: item[1].map(function (dataItem) {
                 return {
                     name: dataItem[1].name,
@@ -199,7 +202,10 @@ option = {
         map: 'china',
         label: {
             emphasis: {
-                show: false
+                show: true,
+                textStyle: {
+                    color: 'rgba(0,0,0,0.4)'
+                }
             }
         },
         itemStyle: {
