@@ -28,7 +28,7 @@
                 background-color: #F5FFFA;
             }
             a:hover{
-                text-decoration:none;  /*鼠标放上去有下划线*/
+                text-decoration:none;  /*鼠标放上去没有下划线*/
             }
         </style>
     </head>

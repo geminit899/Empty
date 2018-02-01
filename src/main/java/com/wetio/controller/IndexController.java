@@ -8,6 +8,7 @@ import com.wetio.entity.Notice;
 import com.wetio.entity.Novel;
 import com.wetio.service.ImageService;
 import com.wetio.service.NovelService;
+import org.eclipse.jetty.websocket.api.Session;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -110,6 +111,11 @@ public class IndexController {
 
         if( !username.equals("geminit") || !password.equals("hack") )
             return "error";
+
+        if( request.getSession().getAttribute("user") != null )
+            request.getSession().removeAttribute("user");
+
+        request.getSession().setAttribute("user", username);
 
         return username;
     }
