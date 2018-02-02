@@ -28,7 +28,7 @@ public class PersonalIndexController {
     @RequestMapping("/personalIndex")
     public String index(Model model, HttpServletRequest request) throws Exception {
 
-        String user  = request.getSession().getAttribute("user").toString();
+        //String user  = request.getSession().getAttribute("user").toString();
 
 
         model.addAttribute("contributions", "");
