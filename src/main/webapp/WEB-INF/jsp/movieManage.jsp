@@ -46,7 +46,7 @@
                     <tr align="center">
                         <td class="success" width="10%"><label>编号</label></td>
                         <td class="success" width="10%"></td>
-                        <td class="success" width="5 0%"><label>区域</label></td>
+                        <td class="success" width="50%"><label>区域</label></td>
                         <td class="success" width="30%"><label>操作</label></td>
                     </tr>
                     <%--<c:forEach items="${user}" var="key" varStatus="status">--%>
@@ -59,59 +59,6 @@
                                 <button class="btn btn-danger" onclick="getCheckBoxDelete()">删除</button>
                             </td>
                         </tr>
-                    <tr class="table-bordered" align="center">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                        <td>
-                            <button class="btn btn-warning" onclick="getCheckBoxEdit()">编辑</button>
-                            <button class="btn btn-danger" onclick="getCheckBoxDelete()">删除</button>
-                        </td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                        <td>
-                            <button class="btn btn-warning" onclick="getCheckBoxEdit()">编辑</button>
-                            <button class="btn btn-danger" onclick="getCheckBoxDelete()">删除</button>
-                        </td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                    </tr>
-                    <tr class="table-bordered">
-                        <td>22</td>
-                        <td><input type="checkbox" name="checkbox" value="24"></td>
-                        <td>sdfghj</td>
-                    </tr>
                     <%--</c:forEach>--%>
                 </table>
             </div>
