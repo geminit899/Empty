@@ -2,16 +2,21 @@ package com.wetio.entity;
 
 public class Music {
 
-    private String author;
+    private int top;
+    private String singer;
     private String name;
     private String url;
 
-    public String getAuthor() {
-        return author;
+    public int getTop() { return top; }
+
+    public void setTop(int top) { this.top = top; }
+
+    public String getSinger() {
+        return singer;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setSinger(String singer) {
+        this.singer = singer;
     }
 
     public String getName() {

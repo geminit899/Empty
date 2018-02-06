@@ -21,6 +21,7 @@
     <context:component-scan base-package="com.wetio.controller"/>
     <context:component-scan base-package="com.wetio.dao"/>
     <context:component-scan base-package="com.wetio.entity"/>
+    <context:component-scan base-package="com.wetio.listener"/>
     <context:component-scan base-package="com.wetio.service"/>
     <context:component-scan base-package="com.wetio.service.impl"/>
 

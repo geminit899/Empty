@@ -42,6 +42,11 @@
     <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
   </listener>
 
+  <!-- 自己写的后天自动运行监听器 -->
+  <listener>
+    <listener-class>com.wetio.listener.Listener</listener-class>
+  </listener>
+
   <!-- spring mvc servlet-->
   <servlet>
     <servlet-name>SpringMVC</servlet-name>
