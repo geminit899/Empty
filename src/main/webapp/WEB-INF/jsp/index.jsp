@@ -127,7 +127,7 @@
                             </div>
                         </div>
                         <div style="height: 350px;background-color: deepskyblue;padding: 10px 30px 10px 30px;">
-                            <c:forEach var="novel" items="${novelsList}">
+                            <c:forEach var="novel" items="${novels}">
                                 <h5>
                                     <a href="${novel.url}" style="color: white;">
                                             ${novel.name}  :  ${novel.latestChapter}

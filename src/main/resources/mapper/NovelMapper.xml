@@ -3,15 +3,57 @@
 <mapper namespace="com.wetio.dao.NovelDao">
 
     <resultMap id="BaseMap" type="com.wetio.entity.Novel">
-        <id column="id" property="id" jdbcType="INTEGER" />
         <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="author" property="author" jdbcType="VARCHAR" />
         <result column="latestchapter" property="latestChapter" jdbcType="VARCHAR" />
         <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="begintime" property="beginTime" jdbcType="TIMESTAMP" />
     </resultMap>
 
-    <select id="getNovels" resultMap="BaseMap">
+    <select id="getNovel" resultMap="BaseMap">
         SELECT
         *
-        FROM novels
+        FROM novel
+        ORDER BY begintime DESC ;
     </select>
+
+    <select id="getUnfinishedNovel" resultMap="BaseMap">
+        SELECT
+        *
+        FROM novel
+        WHERE isfinished=0
+        ORDER BY begintime DESC ;
+    </select>
+
+    <select id="getNovelByName" resultMap="BaseMap" parameterType="String">
+        SELECT
+        *
+        FROM novel
+        WHERE name=#{name};
+    </select>
+
+    <update id="updateLatestChapterByName" parameterType="String">
+        UPDATE novel
+        SET latestchapter=#{latestChapter}
+        WHERE name=#{name}
+    </update>
+
+    <delete id="deleteNovelByName">
+        DELETE
+        FROM novel
+        WHERE name=#{name};
+    </delete>
+
+    <delete id="deleteAllNovel">
+        DELETE
+        FROM novel;
+    </delete>
+
+    <insert id="insertNovel" parameterType="com.wetio.entity.Novel">
+        INSERT INTO novel
+        (name, author, latestchapter, url, begintime)
+        VALUES
+        (#{name}, #{author}, #{latestChapter}, #{url}, #{beginTime});
+    </insert>
+
 </mapper>

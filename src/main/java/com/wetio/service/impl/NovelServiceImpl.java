@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +21,23 @@ public class NovelServiceImpl implements NovelService {
     @Autowired
     private NovelDao novelDao;
 
-    public List<Novel> getNovels(){ return novelDao.getNovels(); }
+    public List<Novel> getNovel() { return novelDao.getNovel(); }
+
+    public List<Novel> getUnfinishedNovel() { return novelDao.getUnfinishedNovel(); }
+
+    public Novel getNovelByName(String name) { return novelDao.getNovelByName(name); }
+
+    public void updateLatestChapterByName(String name, String latestChapter) {
+        novelDao.updateLatestChapterByName(name, latestChapter);
+    }
+
+    public void deleteNovelByName(String name) { novelDao.deleteNovelByName(name); }
+
+    public void deleteAllNovel() { novelDao.deleteAllNovel(); }
+
+    public void insertNovel(Novel novel) {
+        novelDao.insertNovel(novel.getName(), novel.getAuthor(), novel.getLatestChapter(),
+                                novel.getUrl(), novel.getBeginTime());
+    }
 
 }

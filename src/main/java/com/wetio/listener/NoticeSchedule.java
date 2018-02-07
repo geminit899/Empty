@@ -3,6 +3,7 @@ package com.wetio.listener;
 import com.wetio.entity.Music;
 import com.wetio.entity.Notice;
 import com.wetio.service.NoticeService;
+import com.wetio.util.SentMail;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -22,7 +23,7 @@ import java.util.*;
 
 /**
  * @author Geminit
- * @create 2018-2-6
+ * @create 2018-2-7
  */
 
 public class NoticeSchedule {
@@ -120,7 +121,7 @@ public class NoticeSchedule {
             Document noticeDoc = Jsoup.parse(noticePage);
             int clickTime = Integer.parseInt(noticeDoc.getElementById("newsNum").text());
             String title = noticeDoc.select("[class=title]").get(0).text();
-            notice.setTitle(title.split("来源")[0].length()>25?title.split("来源")[0].substring(0, 23) + "...":title.split("来源")[0]);
+            notice.setTitle(title.split("来源")[0]);
             notice.setContent(title.split("点击数量:" + clickTime)[1]);
             String time = noticeDoc.select("[class=pubtime]").get(0).text().split("：")[1];
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -148,58 +149,8 @@ public class NoticeSchedule {
         for(Notice notice : notices){
             if( map.get(notice.getTime().toString()) == null ){
                 noticeService.insertNotice(notice);
-                sentMail(notice);
+                SentMail.sentMail(notice.getTitle(), notice.getContent() + "\n\n\n原网址:" + notice.getUrl());
             }
         }
     }
-
-    public void sentMail(Notice notice){
-        // 收件人电子邮箱
-        String to = "geminit@163.com";
-
-        // 发件人电子邮箱
-        String from = "geminit899@163.com";
-
-        // 指定发送邮件的主机为 smtp.163.com
-        String host = "smtp.163.com";  //163 邮件服务器
-
-        // 获取系统属性
-        Properties properties = System.getProperties();
-
-        // 设置邮件服务器
-        properties.setProperty("mail.smtp.host", host);
-
-        properties.put("mail.smtp.auth", "true");
-        // 获取默认session对象
-        Session session = Session.getDefaultInstance(properties,new Authenticator(){
-            public PasswordAuthentication getPasswordAuthentication()
-            {
-                return new PasswordAuthentication("geminit899@163.com", "Geminit899"); //发件人邮件用户名、密码
-            }
-        });
-
-        try{
-            // 创建默认的 MimeMessage 对象
-            MimeMessage message = new MimeMessage(session);
-
-            // Set From: 头部头字段
-            message.setFrom(new InternetAddress(from));
-
-            // Set To: 头部头字段
-            message.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(to));
-
-            // Set Subject: 头部头字段
-            message.setSubject(notice.getTitle());
-
-            // 设置消息体
-            message.setText( notice.getContent() + "\n\n原网址：" + notice.getUrl() );
-
-            // 发送消息
-            Transport.send(message);
-        }catch (MessagingException mex) {
-            mex.printStackTrace();
-        }
-    }
-
 }

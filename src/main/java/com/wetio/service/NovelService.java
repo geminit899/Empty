@@ -3,6 +3,7 @@ package com.wetio.service;
 
 import com.wetio.entity.Novel;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,6 +13,18 @@ import java.util.List;
 
 public interface NovelService {
 
-    public List<Novel> getNovels();
+    public List<Novel> getNovel();
+
+    public List<Novel> getUnfinishedNovel();
+
+    public Novel getNovelByName(String name);
+
+    public void updateLatestChapterByName(String name, String latestChapter);
+
+    public void deleteNovelByName(String name);
+
+    public void deleteAllNovel();
+
+    public void insertNovel(Novel novel);
 
 }

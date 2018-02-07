@@ -25,10 +25,6 @@ import java.util.TimerTask;
 public class Listener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
 
-    // Public constructor is required by servlet spec
-    public Listener() {
-    }
-
     // -------------------------------------------------------
     // ServletContextListener implementation
     // -------------------------------------------------------
@@ -57,9 +53,21 @@ public class Listener implements ServletContextListener,
             public void run() {
                 // todo auto-generated method stub
                 //执行你的任务类
-                noticeSchedule.noticeSchedule(sce);
+                //noticeSchedule.noticeSchedule(sce);
             }
         }, new Date(), noticeSchedulePeriod);
+
+        NovelSchedule novelSchedule = new NovelSchedule();
+        long novelSchedulePeriod = 1 * 60 * 60 * 1000; // h * m * s * ms
+        Timer novelTimer = new Timer();
+        novelTimer.schedule(new TimerTask(){
+            @Override
+            public void run() {
+                // todo auto-generated method stub
+                //执行你的任务类
+                novelSchedule.novelSchedule(sce);
+            }
+        }, new Date(), novelSchedulePeriod);
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
@@ -67,6 +75,19 @@ public class Listener implements ServletContextListener,
          (the Web application) is undeployed or 
          Application Server shuts down.
       */
+    }
+
+
+
+
+
+
+
+
+
+
+    // Public constructor is required by servlet spec
+    public Listener() {
     }
 
     // -------------------------------------------------------

@@ -64,20 +64,19 @@ public class IndexController {
         logger.info("the index page");
 
         //从数据库获取novel和image
-        List<Novel> novels = novelService.getNovels();
         List<Image> images = imageService.getIndexImages();
 
         List<Map> imagesList = new ArrayList<>();
-        List<Map> novelsList = new ArrayList<>();
         Map map;
 
         //获取novels
-        for (int i = 0; i < novels.size() && i < 8; i++) {
-            map = new HashMap();
-            map.put("name", novels.get(i).getName());
-            map.put("latestChapter", novels.get(i).getLatestChapter().split("章")[1]);
-            map.put("url", novels.get(i).getUrl());
-            novelsList.add(map);
+        List<Novel> novels = novelService.getNovel().subList(0, 8);
+        for(int i=0; i<novels.size(); i++){
+            String str = novels.get(i).getName() + "：" +novels.get(i).getLatestChapter();
+            if ( str.length()>25 ){
+                int lenth = 22 - novels.get(i).getName().length();
+                novels.get(i).setLatestChapter(novels.get(i).getLatestChapter().substring(0, lenth) + "...");
+            }
         }
 
         //获取主页的image
@@ -89,6 +88,10 @@ public class IndexController {
 
         //获取notice
         List<Notice> notices = noticeService.getNotice().subList(0, 8);
+        for(int i=0; i<notices.size(); i++){
+            if ( notices.get(i).getTitle().length()>25 )
+                notices.get(i).setTitle(notices.get(i).getTitle().substring(0, 23) + "...");
+        }
 
         //获取musics
         List<Music> musics = musicService.getMusic().subList(0, 8);
@@ -96,10 +99,10 @@ public class IndexController {
         //获取github
         String github[] = simulateLogin("geminit@163.com", "IamI123..!!");
 
-        model.addAttribute("novelsList", novelsList);
         model.addAttribute("imagesList", imagesList);
         model.addAttribute("notices", notices);
         model.addAttribute("musics", musics);
+        model.addAttribute("novels", novels);
         model.addAttribute("githubImageURL", github[0]);
         model.addAttribute("contributions", github[1]);
 
