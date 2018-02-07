@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wetio.dao.NoticeDao">
+    <resultMap id="BaseMap" type="com.wetio.entity.Notice">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="time" property="time" jdbcType="TIMESTAMP" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getNotice" resultMap="BaseMap">
+        SELECT
+        *
+        FROM notice
+        ORDER BY time DESC ;
+    </select>
+
+    <select id="getNoticeById" resultMap="BaseMap" parameterType="integer">
+        SELECT
+        *
+        FROM notice
+        WHERE id=#{id};
+    </select>
+
+    <delete id="deleteNoticeById">
+        DELETE
+        FROM notice
+        WHERE id=#{id};
+    </delete>
+
+    <delete id="deleteAllNotice">
+        DELETE
+        FROM notice;
+    </delete>
+
+    <insert id="insertNotice" parameterType="com.wetio.entity.Notice">
+        INSERT INTO notice
+        (title, content, time, url)
+        VALUES
+        (#{title}, #{content}, #{time}, #{url});
+    </insert>
+
+</mapper>

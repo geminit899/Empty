@@ -11,7 +11,8 @@
     <select id="getMusic" resultMap="BaseMap">
         SELECT
         *
-        FROM music;
+        FROM music
+        ORDER BY top ASC;
     </select>
 
     <select id="getMusicByName" resultMap="BaseMap" parameterType="String">

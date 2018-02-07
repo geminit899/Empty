@@ -37,26 +37,29 @@ public class Listener implements ServletContextListener,
          initialized(when the Web application is deployed). 
          You can initialize servlet context related data here.
       */
-
-
-
-//        ServletContext context = sce.getServletContext();
-//        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
-//        MusicService musicService = (MusicService) ctx.getBean("MusicService");
-
         MusicSchedule musicSchedule = new MusicSchedule();
-        musicSchedule.musicSchedule(sce);
+        long musicSchedulePeriod = 24 * 60 * 60 * 1000; // h * m * s * ms
+        Timer musicTimer = new Timer();
+        musicTimer.schedule(new TimerTask(){
+            @Override
+            public void run() {
+                // todo auto-generated method stub
+                //执行你的任务类
+                //musicSchedule.musicSchedule(sce);
+            }
+        }, new Date(), musicSchedulePeriod);
 
-//        long period = 10000;//1 * 5 * 60 * 1000; // h * m * s * ms
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask(){
-//            @Override
-//            public void run() {
-//                // todo auto-generated method stub
-//                //执行你的任务类
-//                musicSchedule.musicSchedule();
-//            }
-//        }, new Date(), period);
+        NoticeSchedule noticeSchedule = new NoticeSchedule();
+        long noticeSchedulePeriod = 1 * 5 * 60 * 1000; // h * m * s * ms
+        Timer noticeTimer = new Timer();
+        noticeTimer.schedule(new TimerTask(){
+            @Override
+            public void run() {
+                // todo auto-generated method stub
+                //执行你的任务类
+                noticeSchedule.noticeSchedule(sce);
+            }
+        }, new Date(), noticeSchedulePeriod);
     }
 
     public void contextDestroyed(ServletContextEvent sce) {

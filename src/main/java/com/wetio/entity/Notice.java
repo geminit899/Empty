@@ -1,10 +1,17 @@
 package com.wetio.entity;
 
+import java.util.Date;
+
 public class Notice {
+    private int id;
     private String title;
     private String content;
-    private String time;
+    private Date time;
     private String url;
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
     public String getTitle() {
         return title;
@@ -22,11 +29,11 @@ public class Notice {
         this.content = content;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

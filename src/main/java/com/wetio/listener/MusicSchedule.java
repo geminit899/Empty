@@ -16,7 +16,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Geminit
@@ -34,7 +36,7 @@ public class MusicSchedule {
                 .getBean(MusicService.class);
 
         try {
-            musics = getMusic();
+            getMusic();
         }catch (IOException e){
             System.out.println("Error occured in getMusic().");
         }
@@ -43,8 +45,8 @@ public class MusicSchedule {
 
     }
 
-    public List<Music> getMusic() throws IOException {
-        List<Music> musics = new ArrayList<>();
+    public void getMusic() throws IOException {
+        musics = new ArrayList<>();
         Music music;
 
         URL url = new URL("http://music.163.com/weapi/v1/play/record?csrf_token=");
@@ -88,7 +90,7 @@ public class MusicSchedule {
             e.printStackTrace();
         }
 
-        JSONArray weekData = JSONArray.parseArray(allData.getString("weekData"));
+        JSONArray weekData = JSONArray.parseArray(allData.getString("allData"));
 
         for (int i = 0; i < weekData.size(); i++) {
             music = new Music();
@@ -110,9 +112,9 @@ public class MusicSchedule {
             music.setTop( i+1 );
             music.setName(song.getString("name"));
             music.setUrl("http://music.163.com/#/song?id=" + song.getString("id"));
+
             musics.add(music);
         }
-        return musics;
     }
 
     public void writeMusic(){
@@ -126,9 +128,13 @@ public class MusicSchedule {
             return;
         }
 
-        for(int i=0; i<musics.size(); i++){
-            if( !musicInMysql.contains(musics.get(i)) ){
-                musicService.insertMusic(musics.get(i));
+        Map<String, Music> map = new HashMap<>(musicInMysql.size());
+        for(Music music : musicInMysql)
+            map.put(music.getName(), music);
+
+        for(Music music : musics){
+            if( map.get(music.getName()) == null ){
+                musicService.insertMusic(music);
             }
         }
     }
