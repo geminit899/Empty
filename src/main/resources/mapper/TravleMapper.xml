@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wetio.dao.TravleDao">
+    <resultMap id="BaseMap" type="com.wetio.entity.Travle">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="company" property="company" jdbcType="VARCHAR" />
+        <result column="startcity" property="startCity" jdbcType="VARCHAR" />
+        <result column="way" property="way" jdbcType="VARCHAR" />
+        <result column="destinations" property="destinations" jdbcType="INTEGER" />
+        <result column="begintime" property="beginTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <select id="getTravle" resultMap="BaseMap">
+        SELECT
+        *
+        FROM travle
+        ORDER BY begintime DESC;
+    </select>
+
+    <select id="getTravleByStartCity" resultMap="BaseMap">
+        SELECT
+        *
+        FROM travle
+        WHERE startcity=#{startCity};
+    </select>
+
+    <select id="getTravleById" resultMap="BaseMap">
+        SELECT
+        *
+        FROM travle
+        WHERE id=#{id};
+    </select>
+
+    <update id="updateTravleWayById">
+        UPDATE travle
+        SET way=#{way}
+        WHERE id=#{id};
+    </update>
+
+    <delete id="deleteTravleById">
+        DELETE
+        FROM travle
+        WHERE id=#{id};
+    </delete>
+
+    <insert id="insertTravle">
+        INSERT
+        INTO travle
+        (company, startcity, way, destinations, begintime)
+        VALUES
+        (#{company}, #{startCity}, #{way}, #{destinations}, #{beginTime});
+    </insert>
+
+    <resultMap id="CityMap" type="com.wetio.entity.City">
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+        <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    </resultMap>
+
+    <select id="getCity" resultMap="CityMap">
+        SELECT
+        *
+        FROM city;
+    </select>
+
+    <insert id="insertCity">
+        INSERT
+        INTO city
+        (name, longitude, latitude)
+        VALUES
+        (#{name}, #{longitude}, #{latitude});
+    </insert>
+
+</mapper>

@@ -1,6 +1,5 @@
 package com.wetio.listener;
 
-import com.wetio.entity.Music;
 import com.wetio.entity.Notice;
 import com.wetio.service.NoticeService;
 import com.wetio.util.SentMail;
@@ -9,9 +8,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContextEvent;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

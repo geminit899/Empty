@@ -1,15 +1,10 @@
 package com.wetio.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.wetio.entity.Image;
-import com.wetio.entity.Music;
-import com.wetio.entity.Notice;
-import com.wetio.entity.Novel;
-import com.wetio.service.ImageService;
-import com.wetio.service.MusicService;
-import com.wetio.service.NoticeService;
-import com.wetio.service.NovelService;
+import com.wetio.entity.*;
+import com.wetio.service.*;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -57,11 +52,25 @@ public class IndexController {
     @Autowired
     NoticeService noticeService;
 
+    @Autowired
+    TravleService travleService;
+
     //映射一个action
     @RequestMapping("/index")
     public String index(Model model, HttpServletRequest request) throws Exception {
         //输出日志文件
         logger.info("the index page");
+
+        //获取地图资源
+        List<City> cityLocationList = travleService.getCity();
+        Map<String, double[]> geocoordMap=new HashMap<>();
+
+        for(int i=0; i<cityLocationList.size(); i++){
+            double[] location = { cityLocationList.get(i).getLongitude(), cityLocationList.get(i).getLatitude() };
+            geocoordMap.put( cityLocationList.get(i).getName(), location );
+        }
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
 
         //从数据库获取novel和image
         List<Image> images = imageService.getIndexImages();
@@ -99,6 +108,10 @@ public class IndexController {
         //获取github
         String github[] = simulateLogin("geminit@163.com", "IamI123..!!");
 
+        //获取旅行信息
+        List<Travle> travles = travleService.getTravle();
+
+        model.addAttribute("geocoordMap", geocoordMap);
         model.addAttribute("imagesList", imagesList);
         model.addAttribute("notices", notices);
         model.addAttribute("musics", musics);
