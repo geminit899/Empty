@@ -8,6 +8,7 @@
         <result column="latestchapter" property="latestChapter" jdbcType="VARCHAR" />
         <result column="url" property="url" jdbcType="VARCHAR" />
         <result column="begintime" property="beginTime" jdbcType="TIMESTAMP" />
+        <result column="isfinished" property="isFinished" jdbcType="INTEGER" />
     </resultMap>
 
     <select id="getNovel" resultMap="BaseMap">
@@ -51,9 +52,9 @@
 
     <insert id="insertNovel" parameterType="com.wetio.entity.Novel">
         INSERT INTO novel
-        (name, author, latestchapter, url, begintime)
+        (name, author, latestchapter, url, begintime, isfinished)
         VALUES
-        (#{name}, #{author}, #{latestChapter}, #{url}, #{beginTime});
+        (#{name}, #{author}, #{latestChapter}, #{url}, #{beginTime}, #{isFinished});
     </insert>
 
 </mapper>

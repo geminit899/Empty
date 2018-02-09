@@ -29,6 +29,6 @@ public interface NovelDao {
 
     public void insertNovel(@Param("name")String name, @Param("author")String author,
                             @Param("latestChapter")String latestChapter, @Param("url")String url,
-                            @Param("beginTime")Date beginTime);
+                            @Param("beginTime")Date beginTime, @Param("isFinished")int isFinished);
 
 }

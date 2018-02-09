@@ -112,6 +112,8 @@ public class MusicSchedule {
             music.setTop( i+1 );
             music.setName(song.getString("name"));
             music.setUrl("http://music.163.com/#/song?id=" + song.getString("id"));
+            JSONObject albumObject = JSONObject.parseObject(song.getString("al"));
+            music.setAlbum(albumObject.getString("name"));
 
             musics.add(music);
         }

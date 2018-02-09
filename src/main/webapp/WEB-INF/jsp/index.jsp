@@ -77,11 +77,11 @@
                         <div style="height: 350px;background-color: pink;padding: 10px 30px 10px 30px;">
                             <c:forEach var="notice" items="${notices}">
                                 <h5>
-                                    <a href="${notice.url}" style="color: white;">${notice.title}</a>
+                                    <a href="${notice.url}" style="color: white;" target="_blank">${notice.title}</a>
                                 </h5>
                                 <hr style="margin-top: 10px;margin-bottom: 10px;" color="gray" />
                             </c:forEach>
-                            <a href="http://www.cdut.edu.cn/xww/type/1000020104.html">
+                            <a href="http://www.cdut.edu.cn/xww/type/1000020104.html" target="_blank">
                                 <h5 style="text-align: right;color: white;">More...</h5>
                             </a>
                         </div>
@@ -103,11 +103,13 @@
                         <div style="height: 350px;background-color: #786F3B;padding: 10px 30px 10px 30px;">
                             <c:forEach var="music" items="${musics}">
                                 <h5>
-                                    <a href="${music.url}" style="color: white;">${music.name} - ${music.singer}</a>
+                                    <a href="${music.url}" style="color: white;" target="_blank">
+                                            ${music.name} - ${music.singer}
+                                    </a>
                                 </h5>
                                 <hr style="margin-top: 10px;margin-bottom: 10px;" color="gray" />
                             </c:forEach>
-                            <a href="http://music.163.com/user/songs/rank?id=258625371">
+                            <a href="http://music.163.com/user/songs/rank?id=258625371" target="_blank">
                                 <h5 style="text-align: right;color: white;">More...</h5>
                             </a>
                         </div>
@@ -129,13 +131,13 @@
                         <div style="height: 350px;background-color: deepskyblue;padding: 10px 30px 10px 30px;">
                             <c:forEach var="novel" items="${novels}">
                                 <h5>
-                                    <a href="${novel.url}" style="color: white;">
+                                    <a href="${novel.url}" style="color: white;" target="_blank">
                                             ${novel.name}  :  ${novel.latestChapter}
                                     </a>
                                 </h5>
                                 <hr style="margin-top: 10px;margin-bottom: 10px;" color="gray" />
                             </c:forEach>
-                            <a href="http://www.biquge.com.tw/">
+                            <a href="http://www.biquge.com.tw/" target="_blank">
                                 <h5 style="text-align: right;color: white;">More...</h5>
                             </a>
                         </div>

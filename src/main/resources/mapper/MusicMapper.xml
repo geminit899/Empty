@@ -5,6 +5,7 @@
         <result column="top" property="top" jdbcType="INTEGER" />
         <result column="name" property="name" jdbcType="VARCHAR" />
         <result column="singer" property="singer" jdbcType="VARCHAR" />
+        <result column="album" property="album" jdbcType="VARCHAR" />
         <result column="url" property="url" jdbcType="VARCHAR" />
     </resultMap>
 
@@ -35,9 +36,9 @@
 
     <insert id="insertMusic" parameterType="com.wetio.entity.Music">
         INSERT INTO music
-        (top, name, singer, url)
+        (top, name, singer, album, url)
         VALUES
-        (#{top}, #{name}, #{singer}, #{url});
+        (#{top}, #{name}, #{singer}, #{album}, #{url});
     </insert>
 
 </mapper>

@@ -29,7 +29,7 @@ public class MusicServiceImpl implements MusicService{
     public void deleteAllMusic() { musicDao.deleteAllMusic(); }
 
     public void insertMusic(Music music) {
-        musicDao.insertMusic(music.getTop(), music.getName(), music.getSinger(), music.getUrl());
+        musicDao.insertMusic(music.getTop(), music.getName(), music.getSinger(), music.getAlbum(),music.getUrl());
     }
 
 }

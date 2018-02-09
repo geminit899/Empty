@@ -13,6 +13,7 @@ public class Novel {
     private String latestChapter;
     private String url;
     private Date beginTime;
+    private int isFinished;
 
     public String getName() { return name; }
 
@@ -50,5 +51,13 @@ public class Novel {
 
     public void setBeginTime(Date beginTime) {
         this.beginTime = beginTime;
+    }
+
+    public int getIsFinished() {
+        return isFinished;
+    }
+
+    public void setIsFinished(int isFinished) {
+        this.isFinished = isFinished;
     }
 }

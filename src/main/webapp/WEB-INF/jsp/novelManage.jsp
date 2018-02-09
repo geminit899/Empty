@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: geminit
@@ -8,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>小说管理</title>
     <script src="/js/jquery-1.10.2.js"></script>
     <script src="/js/bootstrap.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.css">
@@ -28,7 +29,7 @@
         <%--搜索框--%>
         <div class="col-md-8 col-sm-8 col-xs-8 form-inline">
             <div class="form-group">
-                <label>区域: </label>
+                <label>书名: </label>
                 <input type="text" class="form-control" id="name">
             </div>
             <button class="btn btn-primary" id="search-btn">搜索</button>
@@ -44,22 +45,25 @@
         <div class="col-md-10 col-sm-10 col-xs-10">
             <table class="table table-bordered" border="1" id="table-user">
                 <tr align="center">
-                    <td class="success" width="10%"><label>编号</label></td>
-                    <td class="success" width="10%"></td>
-                    <td class="success" width="50%"><label>区域</label></td>
-                    <td class="success" width="30%"><label>操作</label></td>
+                    <td class="success" width="10%"><label>书名</label></td>
+                    <td class="success" width="10%"><label>作者</label></td>
+                    <td class="success" width="45%"><label>最新章节</label></td>
+                    <td class="success" width="10%"><label>状态</label></td>
+                    <td class="success" width="25%"><label>操作</label></td>
                 </tr>
-                <%--<c:forEach items="${user}" var="key" varStatus="status">--%>
-                <tr class="table-bordered" align="center">
-                    <td>22</td>
-                    <td><input type="checkbox" name="checkbox" value="24"></td>
-                    <td>sdfghj</td>
-                    <td>
-                        <button class="btn btn-warning" onclick="getCheckBoxEdit()">编辑</button>
-                        <button class="btn btn-danger" onclick="getCheckBoxDelete()">删除</button>
-                    </td>
-                </tr>
-                <%--</c:forEach>--%>
+                <c:forEach items="${novelList}" var="novel" varStatus="status">
+                    <tr class="table-bordered" align="center">
+                        <td>${novel.name}</td>
+                        <td>${novel.author}</td>
+                        <td>${novel.latestChapter}</td>
+                        <c:if test="${novel.isFinished==0}"><td>未完结</td></c:if>
+                        <c:if test="${novel.isFinished==1}"><td>已完结</td></c:if>
+                        <td>
+                            <button class="btn btn-warning">编辑</button>
+                            <button class="btn btn-danger">删除</button>
+                        </td>
+                    </tr>
+                </c:forEach>
             </table>
         </div>
         <div class="col-md-1 col-sm-1 col-xs-1"></div>
@@ -67,27 +71,30 @@
     <%--页数文本--%>
     <div class="row">
         <div class="col-md-1 col-sm-1 col-xs-1"></div>
-        <div class="col-md-8 col-sm-8 col-xs-8">
-            <a>总1条&nbsp;&nbsp;&nbsp;每页10条&nbsp;&nbsp;&nbsp;共1页</a>
+        <div class="col-md-10 col-sm-10 col-xs-10" align="center">
+            <ul class="pagination">
+                <li><a href="#">&lt;&lt;</a></li>
+                <li><a href="#">&lt;</a></li>
+                <c:if test="${pageNum<7}">
+                    <li class="active"><a href="#">1</a></li>
+                    <c:forEach begin="2" end="${pageNum}" var="page">
+                        <li><a href="#">${page}</a></li>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${pageNum>7}">
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a class="disabled" href="#">...</a></li>
+                    <li><a href="#">${pageNum}</a></li>
+                </c:if>
+                <li><a href="#">&gt;</a></li>
+                <li><a href="#">&gt;&gt;</a></li>
+            </ul>
         </div>
-        <div class="col-md-3 col-sm-3 col-xs-3">
-            <nav>
-                <ul class="pager" id="page-controller">
-                    <%--<c:if test="${previous<1}">--%>
-                    <%--<li class="disabled" id="previous"><a href="#">上一页</a></li>--%>
-                    <%--</c:if>--%>
-                    <%--<c:if test="${previous>=1}">--%>
-                    <li><a href="/region/index?page=1">上一页</a></li>
-                    <%--</c:if>--%>
-                    <%--<c:if test="${last > page}">--%>
-                    <li class="disabled" id="last"><a href="#">下一页</a></li>
-                    <%--</c:if>--%>
-                    <%--<c:if test="${last <= page}">--%>
-                    <%--<li><a href="/region/index?page=${last}">下一页</a></li>--%>
-                    <%--</c:if>--%>
-                </ul>
-            </nav>
-        </div>
+        <div class="col-md-1 col-sm-1 col-xs-1"></div>
     </div>
     <%--新建用户模态框--%>
     <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -97,12 +104,12 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">新增区域</h4>
+                    <h4 class="modal-title" id="myModalLabel">新增小说</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-inline">
                         <div class="form-group">
-                            <label>区域:  </label>
+                            <label>书名:  </label>
                             <input type="text" id="newname">
                         </div>
                     </div>
@@ -122,12 +129,12 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabelEdit">区域编辑</h4>
+                    <h4 class="modal-title" id="myModalLabelEdit">区域小说</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-inline">
                         <div class="form-group">
-                            <label>区域:  </label>
+                            <label>书名:  </label>
                             <input type="hidden" id="editid">
                             <input type="text" id="editname">
                         </div>

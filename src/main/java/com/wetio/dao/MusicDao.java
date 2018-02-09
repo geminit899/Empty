@@ -22,7 +22,7 @@ public interface MusicDao {
 
     public void deleteAllMusic();
 
-    public void insertMusic(@Param("top")int top, @Param("name")String name,
-                            @Param("singer")String singer, @Param("url")String url);
+    public void insertMusic(@Param("top")int top, @Param("name")String name, @Param("singer")String singer,
+                            @Param("album")String album, @Param("url")String url);
 
 }

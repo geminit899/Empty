@@ -37,7 +37,7 @@ public class NovelServiceImpl implements NovelService {
 
     public void insertNovel(Novel novel) {
         novelDao.insertNovel(novel.getName(), novel.getAuthor(), novel.getLatestChapter(),
-                                novel.getUrl(), novel.getBeginTime());
+                                novel.getUrl(), novel.getBeginTime(), novel.getIsFinished());
     }
 
 }

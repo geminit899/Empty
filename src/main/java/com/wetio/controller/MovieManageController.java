@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Controller
-@RequestMapping("/wetio")
+@RequestMapping("/wetio/manage")
 public class MovieManageController {
     //添加一个日志器
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(IndexController.class);
@@ -24,7 +24,7 @@ public class MovieManageController {
     ImageService imageService;
 
     //映射一个action
-    @RequestMapping("/movieManage")
+    @RequestMapping("/movie")
     public String index(Model model, HttpServletRequest request) throws Exception {
 
         //String user  = request.getSession().getAttribute("user").toString();

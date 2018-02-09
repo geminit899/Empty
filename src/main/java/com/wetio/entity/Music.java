@@ -5,6 +5,7 @@ public class Music {
     private int top;
     private String singer;
     private String name;
+    private String album;
     private String url;
 
     public int getTop() { return top; }
@@ -25,6 +26,14 @@ public class Music {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
     }
 
     public String getUrl() {

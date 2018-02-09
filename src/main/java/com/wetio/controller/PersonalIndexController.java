@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Controller
-@RequestMapping("/wetio")
+@RequestMapping("/wetio/manage")
 public class PersonalIndexController {
 
     //添加一个日志器
