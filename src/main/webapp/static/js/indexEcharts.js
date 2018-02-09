@@ -1,5 +1,24 @@
 var myChart = echarts.init(document.getElementById('map'));
-var geoCoordMap = eval(${geocoordMap});
+var geoCoordMap;
+
+$.ajax({                    //获得所有标记的值
+    type:"post",
+    async: false, //同步执行
+    url:"/wetio/index/echarts",
+    data:[],
+    success:function(result){
+        str = eval(result);
+        for (var i = 0; i < str.length; i++) {
+            if(str[i].type=="library")
+                library_data.push({ "name": str[i].name, "value": str[i].value || 0 });
+            else if(str[i].type=="cinema")
+                cinema_data.push({ "name": str[i].name, "value": str[i].value || 0 });
+            else if(str[i].type=="culture")
+                culture_data.push({ "name": str[i].name, "value": str[i].value || 0 });
+
+        }
+    }
+});
 
 var CDData = [
     [{name:'成都'}, {name:'上海',value:95}],

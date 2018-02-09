@@ -32,6 +32,8 @@ public interface TravleDao {
 
     public List<City> getCity();
 
+    public List<String> getStartCity();
+
     public void insertCity(@Param("name")String name, @Param("longitude")Double longitude,
                            @Param("latitude")Double latitude);
 

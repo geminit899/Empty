@@ -53,7 +53,7 @@ public class Listener implements ServletContextListener,
             public void run() {
                 // todo auto-generated method stub
                 //执行你的任务类
-                noticeSchedule.noticeSchedule(sce);
+                //noticeSchedule.noticeSchedule(sce);
             }
         }, new Date(), noticeSchedulePeriod);
 
@@ -65,7 +65,7 @@ public class Listener implements ServletContextListener,
             public void run() {
                 // todo auto-generated method stub
                 //执行你的任务类
-                novelSchedule.novelSchedule(sce);
+                //novelSchedule.novelSchedule(sce);
             }
         }, new Date(), novelSchedulePeriod);
     }

@@ -28,6 +28,8 @@ public interface TravleService {
 
     public List<City> getCity();
 
+    public List<String> getStartCity();
+
     public void insertCity(City city);
 
 }

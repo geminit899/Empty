@@ -63,6 +63,13 @@
         FROM city;
     </select>
 
+    <select id="getStartCity" resultType="String">
+        SELECT
+        startcity
+        FROM travle
+        GROUP BY startcity;
+    </select>
+
     <insert id="insertCity">
         INSERT
         INTO city

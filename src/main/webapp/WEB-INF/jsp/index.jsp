@@ -155,19 +155,182 @@
             </div>
             <hr style="width:90%;height:2px;background-color:gray;"/>
             <div id="travel" style="margin-left: 100px;margin-right: 100px"></div>
+            <script type="text/javascript">
+                var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                $("#travel").html("<div id='map' style='width: " + (width-200) + "px; height: 800px;'></div>");
+            </script>
             <div style="height: 30px;"></div>
         </div>
 
-        <script type="text/javascript">
-            var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-            $("#travel").html("<div id='map' style='width: " + (width-200) + "px; height: 800px;'></div>");
-        </script>
+
 
         <jsp:include page="util/footer.jsp"></jsp:include>
 
         <script src="/js/echarts.min.js"></script>
         <script src="/js/china.js"></script>
-        <script src="/js/indexEcharts.js"></script>
+
+        <script type="text/javascript">
+            var myChart = echarts.init(document.getElementById('map'));
+            var geoCoordMap = eval(${geoJsonObject});
+            var NCData = [];
+            var SHData = [];
+            var CDData = [];
+
+            for (var i =0; i<eval(${ncArray.size()}); i++){
+                NCData.push([{'name':${ncArray}[i].from}, {'name':${ncArray}[i].to, 'value': 90}]);
+            }
+
+            for (var i =0; i<eval(${shArray.size()}); i++){
+                SHData.push([{'name':${shArray}[i].from}, {'name':${shArray}[i].to, 'value': 90}]);
+            }
+
+            for (var i =0; i<eval(${cdArray.size()}); i++){
+                CDData.push([{'name':${cdArray}[i].from}, {'name':${cdArray}[i].to, 'value': 90}]);
+            }
+
+            var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
+
+            var convertData = function (data) {
+                var res = [];
+                for (var i = 0; i < data.length; i++) {
+                    var dataItem = data[i];
+                    var fromCoord = geoCoordMap[dataItem[0].name];
+                    var toCoord = geoCoordMap[dataItem[1].name];
+                    if (fromCoord && toCoord) {
+                        res.push({
+                            fromName: dataItem[0].name,
+                            toName: dataItem[1].name,
+                            coords: [fromCoord, toCoord]
+                        });
+                    }
+                }
+                return res;
+            };
+
+            var color = ['#a6c84c', '#ffa022', '#46bee9'];
+            var series = [];
+            [['成都', CDData], ['南昌', NCData], ['上海', SHData]].forEach(function (item, i) {
+                series.push({
+                        name:  'From ' + item[0],
+                        type: 'lines',
+                        zlevel: 1,
+                        effect: {
+                            show: true,
+                            period: 6,
+                            trailLength: 0.7,
+                            color: '#fff',
+                            symbolSize: 3
+                        },
+                        lineStyle: {
+                            normal: {
+                                color: color[i],
+                                width: 0,
+                                curveness: 0.2
+                            }
+                        },
+                        data: convertData(item[1])
+                    },
+                    {
+                        name: 'From ' + item[0],
+                        type: 'lines',
+                        zlevel: 2,
+                        symbol: ['none', 'arrow'],
+                        symbolSize: 10,
+                        effect: {
+                            show: true,
+                            period: 6,
+                            trailLength: 0,
+                            symbol: planePath,
+                            symbolSize: 15
+                        },
+                        lineStyle: {
+                            normal: {
+                                color: color[i],
+                                width: 1,
+                                opacity: 0.6,
+                                curveness: 0.2
+                            }
+                        },
+                        data: convertData(item[1])
+                    },
+                    {
+                        name: 'From ' + item[0],
+                        type: 'effectScatter',
+                        coordinateSystem: 'geo',
+                        zlevel: 2,
+                        rippleEffect: {
+                            brushType: 'stroke'
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'right',
+                                formatter: '{b}'
+                            }
+                        },
+                        symbolSize: 3,
+                        itemStyle: {
+                            normal: {
+                                color: color[i]
+                            }
+                        },
+                        tooltip :{
+                            show: false,
+                        },
+                        data: item[1].map(function (dataItem) {
+                            return {
+                                name: dataItem[1].name,
+                                value: geoCoordMap[dataItem[1].name].concat([dataItem[1].value])
+                            };
+                        })
+                    });
+            });
+
+            option = {
+                title : {
+                    text: '我来到，你的城市。',
+                    subtext: 'Traveling',
+                    left: 'center',
+                    textStyle : {
+                        color: 'gray'
+                    }
+                },
+                tooltip : {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    top: 'bottom',
+                    left: 'left',
+                    data:['From 成都', 'From 南昌', 'From 上海'],
+                    textStyle: {
+                        color: 'gray'
+                    },
+                },
+                geo: {
+                    map: 'china',
+                    label: {
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                color: 'rgba(0,0,0,0.4)'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            areaColor: 'lightgray',
+                            borderColor: '#fff'
+                        },
+                        emphasis: {
+                            areaColor: 'gray'
+                        }
+                    }
+                },
+                series: series
+            };
+            myChart.setOption(option);
+        </script>
 
         <script src="/js/autoPlaySwiper.js"></script>
     </body>

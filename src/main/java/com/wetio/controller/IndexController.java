@@ -61,7 +61,7 @@ public class IndexController {
         //输出日志文件
         logger.info("the index page");
 
-        //获取地图资源
+        //获取全部城市地址
         List<City> cityLocationList = travleService.getCity();
         Map<String, double[]> geocoordMap=new HashMap<>();
 
@@ -69,8 +69,18 @@ public class IndexController {
             double[] location = { cityLocationList.get(i).getLongitude(), cityLocationList.get(i).getLatitude() };
             geocoordMap.put( cityLocationList.get(i).getName(), location );
         }
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
+        JSONObject geoJsonObject = new JSONObject();
+        geoJsonObject.putAll(geocoordMap);
+
+        //获取旅途信息
+        List<Travle> ncTravel = travleService.getTravleByStartCity("南昌");
+        List<Travle> shTravel = travleService.getTravleByStartCity("上海");
+        List<Travle> cdTravel = travleService.getTravleByStartCity("成都");
+
+        JSONArray ncArray = toTravleJson(ncTravel);
+        JSONArray shArray = toTravleJson(shTravel);
+        JSONArray cdArray = toTravleJson(cdTravel);
+
 
         //从数据库获取novel和image
         List<Image> images = imageService.getIndexImages();
@@ -111,7 +121,10 @@ public class IndexController {
         //获取旅行信息
         List<Travle> travles = travleService.getTravle();
 
-        model.addAttribute("geocoordMap", geocoordMap);
+        model.addAttribute("ncArray", ncArray);
+        model.addAttribute("shArray", shArray);
+        model.addAttribute("cdArray", cdArray);
+        model.addAttribute("geoJsonObject", geoJsonObject);
         model.addAttribute("imagesList", imagesList);
         model.addAttribute("notices", notices);
         model.addAttribute("musics", musics);
@@ -139,6 +152,24 @@ public class IndexController {
         request.getSession().setAttribute("user", username);
 
         return username;
+    }
+
+    public JSONArray toTravleJson(List<Travle> travles){
+        JSONObject jsonObject;
+        JSONArray jsonArray = new JSONArray();
+        for (int i=0; i<travles.size(); i++){
+            String citysInTravle[] = travles.get(i).getWay().split("-");
+            for (int j=0; j<citysInTravle.length-1; j++){
+
+                jsonObject = new JSONObject();
+
+                jsonObject.put("from", citysInTravle[j]);
+                jsonObject.put("to", citysInTravle[j+1]);
+
+                jsonArray.add(jsonObject);
+            }
+        }
+        return jsonArray;
     }
 
 

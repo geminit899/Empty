@@ -39,6 +39,8 @@ public class TravleServiceImpl implements TravleService{
 
     public List<City> getCity() { return travleDao.getCity(); }
 
+    public List<String> getStartCity() { return travleDao.getStartCity(); }
+
     public void insertCity(City city) {
         travleDao.insertCity(city.getName(), city.getLongitude(), city.getLatitude());
     }
