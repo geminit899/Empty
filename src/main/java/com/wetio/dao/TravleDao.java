@@ -28,7 +28,7 @@ public interface TravleDao {
 
     public void insertTravle(@Param("company")String company, @Param("startCity")String startCity,
                              @Param("way")String way, @Param("destinations")int destinations,
-                             @Param("beginTime")Date beginTime);
+                             @Param("beginTime")String beginTime);
 
     public List<City> getCity();
 

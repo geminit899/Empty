@@ -9,7 +9,7 @@ public class Travle {
     private String startCity;
     private String way;
     private int destinations;
-    private Date beginTime;
+    private String beginTime;
 
     public int getId() { return id; }
 
@@ -45,11 +45,11 @@ public class Travle {
         this.destinations = destinations;
     }
 
-    public Date getBeginTime() {
+    public String getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(Date beginTime) {
+    public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
 }

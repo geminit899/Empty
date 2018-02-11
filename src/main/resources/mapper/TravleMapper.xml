@@ -7,7 +7,7 @@
         <result column="startcity" property="startCity" jdbcType="VARCHAR" />
         <result column="way" property="way" jdbcType="VARCHAR" />
         <result column="destinations" property="destinations" jdbcType="INTEGER" />
-        <result column="begintime" property="beginTime" jdbcType="TIMESTAMP" />
+        <result column="begintime" property="beginTime" jdbcType="VARCHAR" />
     </resultMap>
 
     <select id="getTravle" resultMap="BaseMap">

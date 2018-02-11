@@ -1,7 +1,5 @@
 package com.wetio.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.wetio.entity.Music;
 import com.wetio.service.MusicService;
 import org.slf4j.LoggerFactory;
@@ -9,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -32,7 +28,7 @@ public class MusicManageController {
 
     //映射一个action
     @RequestMapping("/music")
-    public String musicManage(Model model, HttpServletRequest request) throws Exception {
+    public String musicManage(Model model, HttpServletRequest request) {
 
         int toPage;
 
