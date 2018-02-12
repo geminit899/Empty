@@ -58,7 +58,7 @@
                             <td>${travle.way}</td>
                             <td>${travle.beginTime}</td>
                             <td>
-                                <button class="btn btn-warning">编辑</button>
+                                <button class="btn btn-warning" onclick="edit(${travle.id})">编辑</button>
                                 <button class="btn btn-danger">删除</button>
                             </td>
                         </tr>
@@ -136,87 +136,137 @@
             </div>
             <div class="col-md-1 col-sm-1 col-xs-1"></div>
         </div>
-        <%--新建用户模态框--%>
-        <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">新增旅程</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-5 col-sm-5 col-xs-5" align="right">
-                                <label>同行:</label>
-                            </div>
-                            <div class="col-md-7 col-sm-7 col-xs-7" align="left">
-                                &nbsp;<input type="text" id="company">
-                            </div>
+    </div>
+
+    <%--新建用户模态框--%>
+    <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabelAdd">新增旅程</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5" align="right">
+                            <label>同行:</label>
                         </div>
-                        <div class="row">
-                            <div class="col-md-5 col-sm-5 col-xs-5" align="right">
-                                <label>目的地:  </label>
-                            </div>
-                            <div class="col-md-7 col-sm-7 col-xs-7" align="left">
-                                &nbsp;<input type="text" id="destination">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5 col-sm-5 col-xs-5" align="right">
-                                <label>时间:  </label>
-                            </div>
-                            <div class="col-md-7 col-sm-7 col-xs-7" align="left">
-                                &nbsp;<input type="text" id="beginTime">
-                            </div>
+                        <div class="col-md-7 col-sm-7 col-xs-7" align="left">
+                            &nbsp;<input type="text" id="companyAdd">
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="newbutton">新建</button>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5" align="right">
+                            <label>目的地:  </label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-7" align="left">
+                            &nbsp;<input type="text" id="destinationAdd">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5" align="right">
+                            <label>时间:  </label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-7" align="left">
+                            &nbsp;<input type="text" id="beginTimeAdd">
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <%--编辑用户模态框--%>
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabelEdit">旅程</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-inline">
-                            <div class="form-group">
-                                <label>旅程:  </label>
-                                <input type="hidden" id="editid">
-                                <input type="text" id="editname">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="editlbutton">更新</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="newbutton">新建</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <%--编辑用户模态框--%>
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabelEdit">旅程</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5" align="right">
+                            <label>同行:</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-7" align="left">
+                            &nbsp;<input type="text" id="companyEdit">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5" align="right">
+                            <label>旅途:  </label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-7" align="left">
+                            &nbsp;<input type="text" id="destinationEdit">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5" align="right">
+                            <label>时间:  </label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-7" align="left">
+                            &nbsp;<input type="text" id="beginTimeEdit">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="editlbutton">更新</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--成功模态框--%>
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabelSuccess">成功</h4>
+                </div>
+                <div class="modal-body">操作成功!</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="success()">好的</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <%--失败模态框--%>
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabelError">失败</h4>
+                </div>
+                <div class="modal-body">操作失败!</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">好的</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
     <script type="text/javascript">
         $("#newbutton").click(function(){
-            if($("#destination").text()==null){
+            if($("#destinationAdd").val() == ""){
                 alert("请填写目的地！");
                 return;
             }
 
             var str = {};
-            str["company"] = $("#company").text();
-            str["destination"] = $("#destination").text();
-            str["beginTime"] = $("#beginTime").text();
+            str["company"] = $("#companyAdd").val();
+            str["destination"] = $("#destinationAdd").val();
+            str["beginTime"] = $("#beginTimeAdd").val();
 
             $.ajax({                    //获得各个区域的值
                 type:"post",
@@ -224,14 +274,38 @@
                 url:"/wetio/manage/travle/add",
                 data:str,
                 success:function(result){
-                    if (eval(result) == "sucess"){
-                        //成功
-                    }else if (eval(result) == "error"){
-                        //失败
+                    if (result.toString() == "success"){
+                        $('#successModal').modal('show');
+                    }else if (result.toString() == "error"){
+                        $('#errorModal').modal('show');
                     }
                 }
             });
         })
+    </script>
+
+    <script type="text/javascript">
+        function success(){
+            $('#successModal').modal('hide');
+            $('#newModal').modal('hide');
+            $('#editModal').modal('hide');
+            window.location.reload();
+        }
+    </script>
+
+    <script type="text/javascript">
+        function edit(id){
+            $.ajax({                    //获得各个区域的值
+                type:"post",
+                async: false, //同步执行
+                url:"/wetio/manage/travle/add",
+                data:[{"id":id}],
+                success:function(result){
+                    str = eval(result);
+
+                }
+            });
+        }
     </script>
 
 </body>

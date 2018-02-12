@@ -83,7 +83,7 @@ public class TravleManageController {
         travle.setBeginTime(request.getParameter("beginTime"));
 
         try {
-            travleService.insertTravle(travle);
+            //travleService.insertTravle(travle);
         } catch (Exception e){
             return "error";
         }
