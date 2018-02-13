@@ -22,6 +22,8 @@ public interface TravleDao {
 
     public Travle getTravleById(int id);
 
+    public List<Travle> searchTravle(String search);
+
     public void updateTravleWayById(@Param("id")int id, @Param("way")String way);
 
     public void deleteTravleById(int id);

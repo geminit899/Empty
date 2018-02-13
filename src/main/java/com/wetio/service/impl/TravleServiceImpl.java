@@ -28,6 +28,8 @@ public class TravleServiceImpl implements TravleService{
 
     public Travle getTravleById(int id) { return travleDao.getTravleById(id); }
 
+    public List<Travle> searchTravle(String search) { return travleDao.searchTravle( "%" + search + "%"); }
+
     public void updateTravleWayById(int id, String way) { travleDao.updateTravleWayById(id, way); }
 
     public void deleteTravleById(int id) { travleDao.deleteTravleById(id); }

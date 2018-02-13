@@ -20,6 +20,8 @@ public interface TravleService {
 
     public Travle getTravleById(int id);
 
+    public List<Travle> searchTravle(String search);
+
     public void updateTravleWayById(int id, String way);
 
     public void deleteTravleById(int id);

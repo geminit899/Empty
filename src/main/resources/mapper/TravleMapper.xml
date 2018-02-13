@@ -31,6 +31,13 @@
         WHERE id=#{id};
     </select>
 
+    <select id="searchTravle" resultMap="BaseMap">
+        SELECT
+        *
+        FROM travle
+        WHERE way like ${search};
+    </select>
+
     <update id="updateTravleWayById">
         UPDATE travle
         SET way=#{way}

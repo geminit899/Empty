@@ -30,9 +30,9 @@
             <div class="col-md-8 col-sm-8 col-xs-8 form-inline">
                 <div class="form-group">
                     <label>城市: </label>
-                    <input type="text" class="form-control" id="name">
+                    <input type="text" class="form-control" id="search">
                 </div>
-                <button class="btn btn-primary" id="search-btn">搜索</button>
+                <button class="btn btn-primary" id="searchButton">搜索</button>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-2" align="center">
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModal">新增</button>
@@ -175,7 +175,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="newbutton">新建</button>
+                    <button type="button" class="btn btn-primary" id="newButton">新建</button>
                 </div>
             </div>
         </div>
@@ -192,6 +192,14 @@
                     <h4 class="modal-title" id="myModalLabelEdit">旅程</h4>
                 </div>
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-xs-5" align="right">
+                            <label>ID:</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-xs-7" align="left">
+                            &nbsp;<input type="text" id="IDEdit" disabled="disabled">
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-5 col-sm-5 col-xs-5" align="right">
                             <label>同行:</label>
@@ -218,7 +226,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="editlbutton">更新</button>
+                    <button type="button" class="btn btn-primary" id="editButton">更新</button>
                 </div>
             </div>
         </div>
@@ -257,7 +265,23 @@
     </div>
 
     <script type="text/javascript">
-        $("#newbutton").click(function(){
+        $("#searchButton").click(function(){
+            $.ajax({                    //获得各个区域的值
+                type:"post",
+                async: false, //同步执行
+                url:"/wetio/manage/travle/search",
+                data:{"search":$("#search").val()},
+                success:function(result){
+                    if (result.toString() == "error"){
+                        $('#errorModal').modal('show');
+                    }
+                }
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+        $("#newButton").click(function(){
             if($("#destinationAdd").val() == ""){
                 alert("请填写目的地！");
                 return;
@@ -298,14 +322,53 @@
             $.ajax({                    //获得各个区域的值
                 type:"post",
                 async: false, //同步执行
-                url:"/wetio/manage/travle/add",
-                data:[{"id":id}],
+                url:"/wetio/manage/travle/getTravle",
+                data:{"id":id},
                 success:function(result){
-                    str = eval(result);
+                    travleObject = eval(result);
+                    id = travleObject.id;
+                    company = travleObject.company;
+                    way = travleObject.way;
+                    beginTime = travleObject.beginTime;
 
+                    $("#IDEdit").val(id);
+                    $("#companyEdit").val(company);
+                    $("#destinationEdit").val(way);
+                    $("#beginTimeEdit").val(beginTime);
+
+                    $("#editModal").modal('show');
                 }
             });
         }
+    </script>
+
+    <script type="text/javascript">
+        $("#editButton").click(function(){
+            if($("#destinationEdit").val() == ""){
+                alert("请填写目的地！");
+                return;
+            }
+
+            var str = {};
+            str["id"] = $("#IDEdit").val();
+            str["company"] = $("#companyEdit").val();
+            str["destination"] = $("#destinationEdit").val();
+            str["beginTime"] = $("#beginTimeEdit").val();
+
+            $.ajax({                    //获得各个区域的值
+                type:"post",
+                async: false, //同步执行
+                url:"/wetio/manage/travle/edit",
+                data:str,
+                success:function(result){
+                    if (result.toString() == "success"){
+                        $('#successModal').modal('show');
+                    }else if (result.toString() == "error"){
+                        $('#errorModal').modal('show');
+                    }
+                }
+            });
+        })
     </script>
 
 </body>
