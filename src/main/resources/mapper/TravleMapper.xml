@@ -22,6 +22,7 @@
         *
         FROM travle
         WHERE startcity=#{startCity};
+        ORDER BY begintime DESC;
     </select>
 
     <select id="getTravleById" resultMap="BaseMap">
@@ -35,7 +36,8 @@
         SELECT
         *
         FROM travle
-        WHERE way like ${search};
+        WHERE way like #{search} || company like #{search} || begintime like #{search};
+        ORDER BY begintime DESC;
     </select>
 
     <update id="updateTravleWayById">

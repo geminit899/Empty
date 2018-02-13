@@ -266,17 +266,7 @@
 
     <script type="text/javascript">
         $("#searchButton").click(function(){
-            $.ajax({                    //获得各个区域的值
-                type:"post",
-                async: false, //同步执行
-                url:"/wetio/manage/travle/search",
-                data:{"search":$("#search").val()},
-                success:function(result){
-                    if (result.toString() == "error"){
-                        $('#errorModal').modal('show');
-                    }
-                }
-            });
+            window.location.href = "/wetio/manage/travle/search?search=" + $("#search").val();
         })
     </script>
 
