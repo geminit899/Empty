@@ -21,7 +21,7 @@
         SELECT
         *
         FROM travle
-        WHERE startcity=#{startCity};
+        WHERE startcity=#{startCity}
         ORDER BY begintime DESC;
     </select>
 
