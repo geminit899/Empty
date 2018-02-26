@@ -8,4 +8,4 @@
     网站已经初见雏形，希望在接下来的日子里可以日趋完善。
     
     2018/2/17 23:25
-    Just make a sign
+    Just make a sign 。
